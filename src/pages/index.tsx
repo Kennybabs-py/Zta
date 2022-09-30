@@ -1,4 +1,6 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
+
 import {
   FormControl,
   FormLabel,
@@ -21,6 +23,7 @@ const Home: NextPage = () => {
   //Calling the trpc server method for mutation or query
   // and passing in the 'filename.endpoint'
   const createUser = trpc.useMutation("users.createUser");
+  const router = useRouter();
 
   const {
     register,
@@ -29,12 +32,11 @@ const Home: NextPage = () => {
     formState: { errors, isSubmitting },
   } = useForm<Props>();
 
-  // const onSubmit: SubmitHandler<Props> = (data) => console.log(data);
-
   async function onSubmit(data: Props) {
     //Call the mutation method from the backend
     const newUser = await createUser.mutateAsync(data);
     console.log(newUser);
+    router.push("/waiting");
   }
 
   return (

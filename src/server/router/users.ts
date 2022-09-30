@@ -9,7 +9,7 @@ export const usersRouter = createRouter().mutation("createUser", {
   async resolve({ input, ctx }) {
     console.log(input);
 
-    //Persist user info on database
+    //Persist user info on
     const newUser = await ctx.prisma.speedDateUser.create({
       data: input,
     });
