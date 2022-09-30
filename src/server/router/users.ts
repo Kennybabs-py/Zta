@@ -1,16 +1,19 @@
 import { createRouter } from "./context";
 import { z } from "zod";
 
-export const exampleRouter = createRouter().mutation("createUser", {
-  input: z
-    .object({
-      name: z.string().nullish(),
-      contactInfo: z.string().nullish(),
-    })
-    .nullish(),
-  resolve({ input, ctx }) {
+export const usersRouter = createRouter().mutation("createUser", {
+  input: z.object({
+    name: z.string(),
+    contactInfo: z.string(),
+  }),
+  async resolve({ input, ctx }) {
     console.log(input);
-    ctx.prisma;
-    return {};
+
+    //Persist user info on database
+    const newUser = await ctx.prisma.speedDateUser.create({
+      data: input,
+    });
+
+    return newUser;
   },
 });

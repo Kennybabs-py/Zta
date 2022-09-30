@@ -8,6 +8,7 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { trpc } from "@/utils/trpc";
 
 import styles from "@/styles/index.module.scss";
 
@@ -17,6 +18,10 @@ interface Props {
 }
 
 const Home: NextPage = () => {
+  //Calling the trpc server method for mutation or query
+  // and passing in the 'filename.endpoint'
+  const createUser = trpc.useMutation("users.createUser");
+
   const {
     register,
     handleSubmit,
@@ -26,13 +31,10 @@ const Home: NextPage = () => {
 
   // const onSubmit: SubmitHandler<Props> = (data) => console.log(data);
 
-  function onSubmit(data: Props) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log(data);
-        resolve(data);
-      }, 3000);
-    });
+  async function onSubmit(data: Props) {
+    //Call the mutation method from the backend
+    const newUser = await createUser.mutateAsync(data);
+    console.log(newUser);
   }
 
   return (
