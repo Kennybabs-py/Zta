@@ -67,4 +67,5 @@ model SpeedDateUser {
     id          String @id @default(cuid())
     name        String
     contactInfo String
+    status      String @default("waiting")
 }
